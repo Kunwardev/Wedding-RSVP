@@ -6,24 +6,53 @@
   <title>Our Wedding RSVP</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Arial', sans-serif;
       text-align: center;
       background: #fffaf0;
       margin: 0;
       padding: 0;
+      color: #333;
     }
     header {
       background: #ffcad4;
-      padding: 20px;
+      padding: 30px 20px;
     }
     h1 {
       margin: 0;
-      font-size: 2em;
+      font-size: 2.5em;
       color: #333;
     }
-    .form-container {
+    .subtext {
+      font-size: 1.2em;
+      color: #444;
+    }
+    /* Countdown section */
+    .countdown {
       margin: 30px auto;
-      max-width: 600px;
+      font-size: 2em;
+      font-weight: bold;
+      color: #e63946;
+    }
+    .event-details {
+      background: #f8edeb;
+      padding: 30px 20px;
+      margin: 20px auto;
+      border-radius: 10px;
+      max-width: 700px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .event-details h2 {
+      margin-bottom: 10px;
+      font-size: 1.8em;
+      color: #6d6875;
+    }
+    .event-details p {
+      font-size: 1.2em;
+      margin: 8px 0;
+    }
+    .form-container {
+      margin: 40px auto;
+      max-width: 700px;
       background: #fff;
       padding: 20px;
       border-radius: 8px;
@@ -39,11 +68,45 @@
 <body>
   <header>
     <h1>You're Invited! 💍</h1>
-    <p>Please RSVP below</p>
+    <p class="subtext">Please RSVP below</p>
   </header>
+
+  <!-- Countdown -->
+  <div class="countdown" id="countdown"></div>
+
+  <!-- Event Details -->
+  <section class="event-details">
+    <h2>Wedding Details</h2>
+    <p>📅 Date: <strong>December 20, 2025</strong></p>
+    <p>🕒 Time: <strong>5:00 PM</strong></p>
+    <p>📍 Venue: <strong>The Grand Ballroom, Dayton, OH</strong></p>
+    <p>✨ Dress Code: <strong>Formal Attire</strong></p>
+  </section>
   <div class="form-container">
     <!-- Paste your Google Form embed code here -->
-    <iframe src="YOUR_GOOGLE_FORM_EMBED_LINK"></iframe>
+    <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScbKMr4R2Ac5ZZDecy2GzE-xVMl0OiQIfn4uLPT_6XWAbUzZQ/viewform?embedded=true" width="800" height="832" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
   </div>
+<script>
+    // Countdown Timer
+    const eventDate = new Date("Dec 20, 2025 17:00:00").getTime();
+
+    const timer = setInterval(function() {
+      const now = new Date().getTime();
+      const distance = eventDate - now;
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      document.getElementById("countdown").innerHTML =
+        days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+
+      if (distance < 0) {
+        clearInterval(timer);
+        document.getElementById("countdown").innerHTML = "It's Wedding Time! 🎉";
+      }
+    }, 1000);
+  </script>
 </body>
 </html>
