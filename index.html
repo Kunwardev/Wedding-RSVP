@@ -28,6 +28,7 @@
       font-size: 1.2em;
       color: #555;
     }
+
     /* Banner */
     .banner {
       width: 100%;
@@ -41,6 +42,7 @@
       font-weight: bold;
       text-shadow: 2px 2px 6px rgba(0,0,0,0.5);
     }
+
     /* Countdown */
     .countdown {
       margin: 30px auto;
@@ -48,6 +50,7 @@
       font-weight: bold;
       color: #d4af37;
     }
+
     /* Event Details */
     .event-details {
       background: #fff;
@@ -67,6 +70,7 @@
       font-size: 1.2em;
       margin: 8px 0;
     }
+
     /* Gallery */
     .gallery {
       max-width: 900px;
@@ -92,7 +96,45 @@
     .gallery-grid img:hover {
       transform: scale(1.05);
     }
-    /* RSVP Form */
+
+    /* RSVP */
+    .code-box {
+      max-width: 400px;
+      margin: 30px auto;
+      padding: 20px;
+      border: 2px solid #d4af37;
+      border-radius: 12px;
+      background: #fffaf0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .code-box input {
+      width: 80%;
+      padding: 10px;
+      font-size: 1.1em;
+      border-radius: 8px;
+      border: 1px solid #d4af37;
+      margin-bottom: 10px;
+    }
+    .code-box button {
+      padding: 10px 20px;
+      font-size: 1.1em;
+      background: #d4af37;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .code-box button:hover {
+      background: #b8942f;
+    }
+    #errorMsg {
+      color: red;
+      display: none;
+      margin-top: 8px;
+      font-weight: bold;
+    }
+
     .form-container {
       margin: 40px auto;
       max-width: 700px;
@@ -101,7 +143,9 @@
       border-radius: 8px;
       border: 2px solid #d4af37;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      display: none; /* 🔒 Hidden until code is validated */
     }
+
     iframe {
       width: 100%;
       height: 600px;
@@ -110,79 +154,92 @@
   </style>
 </head>
 <body>
-  <header>
-    <h1>You're Invited! 💍</h1>
-    <p class="subtext">Please RSVP below</p>
-  </header>
 
-  <!-- Banner -->
-  <div class="banner">Kunwar Dev Singh & Michelle Masih</div>
+<header>
+  <h1>You're Invited! 💍</h1>
+  <p class="subtext">Please RSVP below</p>
+</header>
 
-  <!-- Countdown -->
-  <div class="countdown" id="countdown"></div>
+<!-- Banner -->
+<div class="banner">Kunwar Dev Singh & Michelle Masih</div>
 
-  <!-- Event Details -->
-  <section class="event-details">
-    <h2>Wedding Details</h2>
-    <p>📅 Date: <strong>March 14, 2026</strong></p>
-    <p>🕒 Time: <strong>4:00 PM</strong></p>
-    <p>📍 Venue: <strong>Crowne Plaza Annapolis,</p>
-                      <p> 173 Jennifer Road,</p>
-                      <p>Annapolis, Maryland 21401</strong></p>
-    <p>✨ Dress Code: <strong>Formal Attire</strong></p>
-  </section>
+<!-- Countdown -->
+<div class="countdown" id="countdown"></div>
 
-  <!-- Gallery -->
-  <section class="gallery">
-    <h2>Our Journey ❤️</h2>
-    <div class="gallery-grid">
-      <img src="https://via.placeholder.com/400x300/fff/d4af37?text=Photo+1" alt="Photo 1">
-      <img src="https://via.placeholder.com/400x300/fff/d4af37?text=Photo+2" alt="Photo 2">
-      <img src="https://via.placeholder.com/400x300/fff/d4af37?text=Photo+3" alt="Photo 3">
-    </div>
-  </section>
+<!-- Event Details -->
+<section class="event-details">
+  <h2>Wedding Details</h2>
+  <p>📅 Date: <strong>March 14, 2026</strong></p>
+  <p>🕒 Time: <strong>4:00 PM</strong></p>
+  <p>📍 Venue: <strong>Crowne Plaza Annapolis,<br>173 Jennifer Road,<br>Annapolis, Maryland 21401</strong></p>
+  <p>✨ Dress Code: <strong>Formal Attire</strong></p>
+</section>
 
-<!-- RSVP Section -->
-<section id="rsvp" class="py-16 bg-white">
-  <h2 class="text-3xl font-bold text-center text-yellow-600 mb-8">RSVP</h2>
-  <div class="max-w-3xl mx-auto bg-yellow-50 p-6 rounded-2xl shadow-lg">
-    <iframe 
-      src="https://docs.google.com/forms/d/e/1FAIpQLScbKMr4R2Ac5ZZDecy2GzE-xVMl0OiQIfn4uLPT_6XWAbUzZQ/viewform?embedded=true" 
-      width="900" 
-      height="900" 
-      frameborder="0" 
-      marginheight="0" 
-      marginwidth="0"
-    >
-      Loading…
-    </iframe>
+<!-- Gallery -->
+<section class="gallery">
+  <h2>Our Journey ❤️</h2>
+  <div class="gallery-grid">
+    <img src="https://via.placeholder.com/400x300/fff/d4af37?text=Photo+1">
+    <img src="https://via.placeholder.com/400x300/fff/d4af37?text=Photo+2">
+    <img src="https://via.placeholder.com/400x300/fff/d4af37?text=Photo+3">
   </div>
 </section>
 
+<!-- RSVP Section -->
+<h2 style="color:#d4af37; margin-top:40px;">RSVP</h2>
 
+<!-- 🔒 Invite Code Entry Box -->
+<div class="code-box" id="codeEntryBox">
+  <p>Please enter your unique invitation code:</p>
+  <input id="inviteCode" placeholder="e.g., FAM001" />
+  <button onclick="validateCode()">Submit</button>
+  <div id="errorMsg">Invalid code. Please try again.</div>
+</div>
 
+<!-- 🔒 Hidden until code is valid -->
+<div class="form-container" id="rsvpForm">
+  <iframe 
+    src="https://docs.google.com/forms/d/e/1FAIpQLScbKMr4R2Ac5ZZDecy2GzE-xVMl0OiQIfn4uLPT_6XWAbUzZQ/viewform?embedded=true">
+  </iframe>
+</div>
 
-  <script>
-    // Countdown Timer
-    const eventDate = new Date("March 14, 2026 16:00:00").getTime();
+<script>
+  // Countdown Timer
+  const eventDate = new Date("March 14, 2026 16:00:00").getTime();
+  setInterval(function() {
+    const now = new Date().getTime();
+    const distance = eventDate - now;
 
-    const timer = setInterval(function() {
-      const now = new Date().getTime();
-      const distance = eventDate - now;
+    if (distance < 0) {
+      document.getElementById("countdown").innerHTML = "It's Wedding Time! 🎉";
+      return;
+    }
 
-      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    const days = Math.floor(distance / (1000*60*60*24));
+    const hours = Math.floor((distance % (1000*60*60*24)) / (1000*60*60));
+    const minutes = Math.floor((distance % (1000*60*60)) / (1000*60));
+    const seconds = Math.floor((distance % (1000*60)) / 1000);
 
-      document.getElementById("countdown").innerHTML =
-        days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+    document.getElementById("countdown").innerHTML =
+      days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+  }, 1000);
 
-      if (distance < 0) {
-        clearInterval(timer);
-        document.getElementById("countdown").innerHTML = "It's Wedding Time! 🎉";
-      }
-    }, 1000);
-  </script>
+  // 🔒 Invite Code Validation
+  async function validateCode() {
+    const input = document.getElementById("inviteCode").value.trim().toUpperCase();
+
+    const response = await fetch("codes.json");
+    const data = await response.json();
+
+    if (data.codes.includes(input)) {
+      document.getElementById("codeEntryBox").style.display = "none";
+      document.getElementById("rsvpForm").style.display = "block";
+      document.getElementById("errorMsg").style.display = "none";
+    } else {
+      document.getElementById("errorMsg").style.display = "block";
+    }
+  }
+</script>
+
 </body>
 </html>
